@@ -1807,6 +1807,10 @@
   </footer>
 
   <script>
+    // API CONFIGURATION
+    // Change this to your deployed backend URL when deploying (e.g., "https://your-backend.onrender.com")
+    const API_BASE_URL = "http://127.0.0.1:5001";
+
     // CANVAS
     const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
     let W, H;
@@ -1870,7 +1874,7 @@ async function diagnose() {
   fd.append('file', fi.files[0]);
 
   try {
-    const res = await fetch("http://127.0.0.1:5001/predict-disease", {
+    const res = await fetch(`${API_BASE_URL}/predict-disease`, {
       method: "POST",
       body: fd
     });
@@ -1909,7 +1913,7 @@ async function diagnose() {
       const temperature = parseFloat(document.getElementById('tr').value);
 
       try {
-        const res = await fetch("http://127.0.0.1:5001/predict-yield", {
+        const res = await fetch(`${API_BASE_URL}/predict-yield`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ rainfall, pesticides, temperature })
