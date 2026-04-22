@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CropSense AI — Smart Farming Intelligence Platform</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #0b0e09;
+      --bg2: #111510;
+      --bg3: #171c15;
+      --bg4: #1e251c;
+      --bg5: #242c22;
+      --gold: #c8a84b;
+      --gold2: #dbbf6e;
+      --gold3: #8c7132;
+      --sage: #7a9e7e;
+      --sage2: #9dbfa1;
+      --cream: #eff3ee;
+      --cream2: #c5cfc6;
+      --cream3: #8a9e8c;
+      --cream4: #556857;
+      --red: #d97474;
+      --border: rgba(200, 168, 75, 0.1);
+      --border2: rgba(200, 168, 75, 0.22);
+      --border3: rgba(200, 168, 75, 0.4);
+      --glow: rgba(200, 168, 75, 0.07);
+      --glow2: rgba(200, 168, 75, 0.04);
+      --r14: 14px;
+      --r22: 22px;
+      --r40: 40px;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg)
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 3px
+    }
+
+    #cv {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: rgba(11, 14, 9, 0.78);
+      backdrop-filter: blur(22px);
+      border-bottom: 0.5px solid var(--border);
+      transition: padding 0.35s
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem
+    }
+
+    .nav-emblem {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: var(--glow);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .nav-emblem svg {
+      width: 17px;
+      height: 17px
+    }
+
+    .nav-wordmark {
+      font-family: 'Fraunces', serif;
+      font-size: 1.18rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--cream)
+    }
+
+    .nav-wordmark span {
+      color: var(--gold)
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem
+    }
+
+    .nav-links a {
+      font-size: 0.79rem;
+      font-weight: 400;
+      color: var(--cream3);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s
+    }
+
+    .nav-links a:hover {
+      color: var(--cream)
+    }
+
+    .nav-btn {
+      font-size: 0.77rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 0.52rem 1.35rem;
+      border-radius: var(--r40);
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.25s
+    }
+
+    .nav-btn:hover {
+      background: var(--glow);
+      border-color: var(--border3)
+    }
+
+    /* HERO */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 5rem;
+      z-index: 1
+    }
+
+    .hero-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 4rem;
+      align-items: center
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: appear 0.7s 0.1s forwards
+    }
+
+    .kicker-line {
+      width: 22px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.6
+    }
+
+    .hero-h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: appear 0.7s 0.2s forwards
+    }
+
+    .hero-h1 .ac {
+      color: var(--gold)
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--cream2);
+      line-height: 1.8;
+      max-width: 510px;
+      margin-bottom: 2.6rem;
+      opacity: 0;
+      animation: appear 0.7s 0.35s forwards
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: appear 0.7s 0.45s forwards
+    }
+
+    .btn-p {
+      padding: 0.88rem 2rem;
+      border-radius: var(--r40);
+      background: var(--gold);
+      color: #0b0e09;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.02em
+    }
+
+    .btn-p:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 38px rgba(200, 168, 75, 0.22)
+    }
+
+    .btn-o {
+      padding: 0.88rem 2rem;
+      border-radius: var(--r40);
+      background: transparent;
+      color: var(--cream2);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.02em
+    }
+
+    .btn-o:hover {
+      border-color: var(--border3);
+      color: var(--cream);
+      background: var(--glow)
+    }
+
+    .hero-panel {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r22);
+      padding: 1.8rem;
+      opacity: 0;
+      animation: appear 0.7s 0.5s forwards
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1.4rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--border)
+    }
+
+    .pd {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%
+    }
+
+    .pd.a {
+      background: #c04a4a
+    }
+
+    .pd.b {
+      background: var(--gold3)
+    }
+
+    .pd.c {
+      background: var(--sage)
+    }
+
+    .panel-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--cream3);
+      text-transform: uppercase;
+      margin-left: auto
+    }
+
+    .pstat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.3rem
+    }
+
+    .pstat {
+      background: var(--bg);
+      padding: 1.1rem
+    }
+
+    .pstat-n {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      font-weight: 500;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 0.2rem
+    }
+
+    .pstat-n .u {
+      font-size: 0.95rem;
+      color: var(--gold);
+      font-weight: 400
+    }
+
+    .pstat-l {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.57rem;
+      letter-spacing: 0.1em;
+      color: var(--cream4);
+      text-transform: uppercase
+    }
+
+    .pbar-row {
+      margin-bottom: 0.85rem
+    }
+
+    .pbar-hd {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.32rem
+    }
+
+    .pbar-nm {
+      font-size: 0.73rem;
+      color: var(--cream2)
+    }
+
+    .pbar-vl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.66rem;
+      color: var(--gold)
+    }
+
+    .pbar-tr {
+      height: 3px;
+      background: var(--bg4);
+      border-radius: 2px;
+      overflow: hidden
+    }
+
+    .pbar-fl {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--gold3), var(--gold));
+      width: 0;
+      transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    /* SECTIONS */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 3rem
+    }
+
+    .max {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .sec-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem
+    }
+
+    .sec-lbl::before {
+      content: '';
+      width: 18px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.6
+    }
+
+    .sec-h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.1rem, 4vw, 3.3rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      margin-bottom: 1.1rem
+    }
+
+    .sec-body {
+      font-size: 0.98rem;
+      font-weight: 300;
+      color: var(--cream2);
+      line-height: 1.8;
+      max-width: 540px
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--bg2)
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 4rem
+    }
+
+    .adesc {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--cream2);
+      line-height: 1.85;
+      margin-bottom: 1.7rem
+    }
+
+    .ahighlight {
+      border-left: 2px solid var(--gold);
+      padding: 1.1rem 1.4rem;
+      background: var(--glow);
+      border-radius: 0 10px 10px 0;
+      font-size: 0.93rem;
+      color: var(--cream2);
+      line-height: 1.75
+    }
+
+    .ahighlight strong {
+      color: var(--cream);
+      font-weight: 500
+    }
+
+    .pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem
+    }
+
+    .pillar {
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      padding: 1.2rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r14);
+      transition: border-color 0.3s
+    }
+
+    .pillar:hover {
+      border-color: var(--border2)
+    }
+
+    .pn {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--gold);
+      opacity: 0.45;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 30px;
+      text-align: center
+    }
+
+    .pb h4 {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 0.22rem
+    }
+
+    .pb p {
+      font-size: 0.78rem;
+      color: var(--cream3);
+      line-height: 1.65
+    }
+
+    /* HOW IT WORKS */
+    .how-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 4rem
+    }
+
+    .how-right {
+      font-size: 0.93rem;
+      color: var(--cream3);
+      line-height: 1.8;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      border-radius: var(--r22);
+      overflow: hidden
+    }
+
+    .fstep {
+      background: var(--bg);
+      padding: 2.1rem 1.7rem;
+      position: relative;
+      transition: background 0.3s
+    }
+
+    .fstep:hover {
+      background: var(--bg3)
+    }
+
+    .sidx {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--cream4);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem
+    }
+
+    .sidx::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    .sicon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--glow);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem
+    }
+
+    .sicon svg {
+      width: 19px;
+      height: 19px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5
+    }
+
+    .fstep h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em
+    }
+
+    .fstep p {
+      font-size: 0.78rem;
+      color: var(--cream3);
+      line-height: 1.7
+    }
+
+    /* TOOLS */
+    #tools {
+      background: var(--bg2)
+    }
+
+    .tools-hd {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 3.5rem
+    }
+
+    .tools-hd-r {
+      font-size: 0.92rem;
+      color: var(--cream3);
+      line-height: 1.8
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem
+    }
+
+    .tcard {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r22);
+      overflow: hidden;
+      transition: border-color 0.3s
+    }
+
+    .tcard:hover {
+      border-color: var(--border2)
+    }
+
+    .tcard-hd {
+      padding: 1.8rem 1.8rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.4rem
+    }
+
+    .ttag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 0.28rem 0.7rem;
+      border: 1px solid var(--border2);
+      border-radius: var(--r40);
+      background: var(--glow);
+      display: inline-block;
+      margin-bottom: 0.65rem
+    }
+
+    .ttitle {
+      font-family: 'Fraunces', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.15;
+      letter-spacing: -0.015em
+    }
+
+    .ticon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 11px;
+      background: var(--glow);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .ticon svg {
+      width: 21px;
+      height: 21px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5
+    }
+
+    .tbody {
+      padding: 0 1.8rem 1.8rem
+    }
+
+    .dc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      margin-bottom: 1.3rem
+    }
+
+    .dc {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.48rem 0.65rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.7rem;
+      color: var(--cream2)
+    }
+
+    .dcd {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .uzone {
+      border: 1.5px dashed var(--border2);
+      border-radius: var(--r14);
+      padding: 2rem 1.4rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: var(--glow2);
+      margin-bottom: 1.2rem;
+      position: relative
+    }
+
+    .uzone:hover,
+    .uzone.over {
+      border-color: var(--gold);
+      background: var(--glow)
+    }
+
+    .uzone input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer
+    }
+
+    .usvg {
+      margin: 0 auto 0.7rem;
+      display: block
+    }
+
+    .umain {
+      font-size: 0.83rem;
+      color: var(--cream2);
+      margin-bottom: 0.18rem
+    }
+
+    .umain span {
+      color: var(--gold)
+    }
+
+    .uhint {
+      font-size: 0.68rem;
+      color: var(--cream4)
+    }
+
+    #ipw {
+      display: none;
+      margin-bottom: 1.2rem;
+      position: relative
+    }
+
+    #ip {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: var(--r14);
+      border: 1px solid var(--border)
+    }
+
+    .rmbtn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: rgba(11, 14, 9, 0.88);
+      border: 1px solid var(--border2);
+      color: var(--cream3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      transition: all 0.2s
+    }
+
+    .rmbtn:hover {
+      color: var(--red);
+      border-color: var(--red)
+    }
+
+    .scanwrap {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--r14);
+      overflow: hidden;
+      pointer-events: none;
+      display: none
+    }
+
+    .scanwrap.on {
+      display: block
+    }
+
+    .scanline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: scan 1.6s ease-in-out infinite
+    }
+
+    @keyframes scan {
+      0% {
+        top: 0;
+        opacity: 1
+      }
+
+      85% {
+        top: 100%;
+        opacity: 0.4
+      }
+
+      100% {
+        top: 100%;
+        opacity: 0
+      }
+    }
+
+    .field {
+      margin-bottom: 1.25rem
+    }
+
+    .ftop {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.48rem
+    }
+
+    .fname {
+      font-size: 0.75rem;
+      color: var(--cream3)
+    }
+
+    .fval {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.71rem;
+      color: var(--gold)
+    }
+
+    .rtrack {
+      position: relative
+    }
+
+    input[type=range] {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 3px;
+      background: var(--bg4);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+      box-shadow: 0 0 9px rgba(200, 168, 75, 0.4)
+    }
+
+    .rfill {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 3px;
+      border-radius: 2px;
+      background: var(--gold);
+      pointer-events: none
+    }
+
+    .mini-g {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.55rem;
+      margin-bottom: 1.25rem
+    }
+
+    .mc {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 0.6rem;
+      text-align: center
+    }
+
+    .mcl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.53rem;
+      letter-spacing: 0.1em;
+      color: var(--cream4);
+      text-transform: uppercase;
+      margin-bottom: 0.28rem
+    }
+
+    .mcv {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--cream)
+    }
+
+    .sbtn {
+      width: 100%;
+      padding: 0.88rem;
+      border-radius: var(--r14);
+      background: var(--gold);
+      color: #0b0e09;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.02em;
+      position: relative;
+      overflow: hidden
+    }
+
+    .sbtn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.16), transparent 70%);
+      transform: translateX(-130%);
+      transition: transform 0.5s
+    }
+
+    .sbtn:hover::after {
+      transform: translateX(130%)
+    }
+
+    .sbtn:hover {
+      background: var(--gold2)
+    }
+
+    .sbtn:active {
+      transform: scale(0.99)
+    }
+
+    .sbtn.busy {
+      pointer-events: none;
+      opacity: 0.7
+    }
+
+    .spin {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(11, 14, 9, 0.25);
+      border-top-color: #0b0e09;
+      border-radius: 50%;
+      animation: sp 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 5px
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .res {
+      display: none;
+      margin-top: 1rem;
+      padding: 1.1rem 1.25rem;
+      border-radius: var(--r14);
+      border: 1px solid var(--border);
+      background: var(--glow2);
+      animation: appear 0.4s both
+    }
+
+    .res.on {
+      display: block
+    }
+
+    .res.ok {
+      border-color: rgba(200, 168, 75, 0.28);
+      background: rgba(200, 168, 75, 0.04)
+    }
+
+    .rl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream4);
+      margin-bottom: 0.38rem
+    }
+
+    .rv {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--cream);
+      line-height: 1.1
+    }
+
+    .rn {
+      font-size: 0.73rem;
+      color: var(--cream3);
+      margin-top: 0.38rem;
+      line-height: 1.55
+    }
+
+    .schip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.48rem;
+      padding: 0.32rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.73rem;
+      font-weight: 500;
+      margin-top: 0.45rem
+    }
+
+    .cok {
+      background: rgba(122, 158, 126, 0.14);
+      color: var(--sage2);
+      border: 1px solid rgba(122, 158, 126, 0.28)
+    }
+
+    .cwarn {
+      background: rgba(200, 168, 75, 0.11);
+      color: var(--gold2);
+      border: 1px solid rgba(200, 168, 75, 0.28)
+    }
+
+    .cdot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor
+    }
+
+    /* IMPACT */
+    .imp-top {
+      margin-bottom: 3.8rem
+    }
+
+    .imp-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem
+    }
+
+    .icard {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r22);
+      padding: 2rem;
+      transition: all 0.3s
+    }
+
+    .icard:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px)
+    }
+
+    .icard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.4rem
+    }
+
+    .inum {
+      font-family: 'Fraunces', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1
+    }
+
+    .iico {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--glow);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .iico svg {
+      width: 19px;
+      height: 19px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5
+    }
+
+    .icard h3 {
+      font-size: 0.93rem;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 0.45rem
+    }
+
+    .icard p {
+      font-size: 0.78rem;
+      color: var(--cream3);
+      line-height: 1.65
+    }
+
+    .imp-div {
+      height: 0.5px;
+      background: var(--border);
+      margin: 4rem 0
+    }
+
+    .mission-blk {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center
+    }
+
+    .mq {
+      font-family: 'Fraunces', serif;
+      font-size: 1.45rem;
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.5;
+      letter-spacing: -0.01em
+    }
+
+    .mb {
+      font-size: 0.9rem;
+      color: var(--cream3);
+      line-height: 1.8
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg2);
+      border-top: 0.5px solid var(--border);
+      padding: 3.5rem 3rem
+    }
+
+    .fw {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: start
+    }
+
+    .fbn {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 0.45rem
+    }
+
+    .fbn span {
+      color: var(--gold)
+    }
+
+    .ftg {
+      font-size: 0.78rem;
+      color: var(--cream4);
+      line-height: 1.65
+    }
+
+    .fcl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem
+    }
+
+    .fc ul {
+      list-style: none
+    }
+
+    .fc ul li {
+      font-size: 0.78rem;
+      color: var(--cream3);
+      margin-bottom: 0.5rem;
+      transition: color 0.2s
+    }
+
+    .fc ul li:hover {
+      color: var(--cream)
+    }
+
+    .fb {
+      max-width: 1100px;
+      margin: 2.2rem auto 0;
+      padding-top: 1.4rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .fcp {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.07em;
+      color: var(--cream4)
+    }
+
+    .fpills {
+      display: flex;
+      gap: 0.55rem
+    }
+
+    .fpill {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.07em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--cream4)
+    }
+
+    /* ANIMATE */
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .rev {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease
+    }
+
+    .rev.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .d1 {
+      transition-delay: 0.08s
+    }
+
+    .d2 {
+      transition-delay: 0.17s
+    }
+
+    .d3 {
+      transition-delay: 0.26s
+    }
+
+    .d4 {
+      transition-delay: 0.35s
+    }
+
+    @media(max-width:860px) {
+      .hero-wrap {
+        grid-template-columns: 1fr
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr
+      }
+
+      .how-intro {
+        grid-template-columns: 1fr
+      }
+
+      .flow-grid {
+        grid-template-columns: 1fr
+      }
+
+      .tools-hd {
+        grid-template-columns: 1fr
+      }
+
+      .tools-grid {
+        grid-template-columns: 1fr
+      }
+
+      .imp-cards {
+        grid-template-columns: 1fr
+      }
+
+      .mission-blk {
+        grid-template-columns: 1fr
+      }
+
+      .fw {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="cv"></canvas>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-brand">
+      <div class="nav-emblem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      </div>
+      <div class="nav-wordmark">Crop<span>Sense</span> AI</div>
+    </div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#how">How It Works</a>
+      <a href="#tools">Detection Tools</a>
+      <a href="#impact">Impact</a>
+    </div>
+    <button class="nav-btn" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Open
+      Platform</button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-wrap">
+      <div>
+        <div class="hero-kicker"><span class="kicker-line"></span>Smart Farming Intelligence Platform</div>
+        <h1 class="hero-h1">Protecting Crops.<br>Predicting <span class="ac">Harvests.</span><br>Empowering Farmers.
+        </h1>
+        <p class="hero-desc">CropSense AI combines deep learning vision and predictive modeling to deliver real-time
+          crop disease diagnosis and accurate yield forecasting — directly from field conditions and leaf photographs.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-p" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Analyze
+            Your Crops</button>
+          <button class="btn-o" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn
+            About the Project</button>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-top">
+          <div class="pd a"></div>
+          <div class="pd b"></div>
+          <div class="pd c"></div>
+          <div class="panel-lbl">Platform Status</div>
+        </div>
+        <div class="pstat-grid">
+          <div class="pstat">
+            <div class="pstat-n"><span class="count-up" data-t="96">0</span><span class="u">%</span></div>
+            <div class="pstat-l">Detection Accuracy</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-n"><span class="count-up" data-t="4">0</span><span class="u"> cls</span></div>
+            <div class="pstat-l">Disease Classes</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-n"><span class="count-up" data-t="3">0</span><span class="u"> var</span></div>
+            <div class="pstat-l">Yield Input Factors</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-n"><span class="count-up" data-t="8">0</span><span class="u"> ep</span></div>
+            <div class="pstat-l">Training Epochs</div>
+          </div>
+        </div>
+        <div class="pbar-row">
+          <div class="pbar-hd"><span class="pbar-nm">Disease Model Confidence</span><span class="pbar-vl">96%</span>
+          </div>
+          <div class="pbar-tr">
+            <div class="pbar-fl" data-w="96"></div>
+          </div>
+        </div>
+        <div class="pbar-row">
+          <div class="pbar-hd"><span class="pbar-nm">Yield Model Reliability</span><span class="pbar-vl">91%</span>
+          </div>
+          <div class="pbar-tr">
+            <div class="pbar-fl" data-w="91"></div>
+          </div>
+        </div>
+        <div class="pbar-row">
+          <div class="pbar-hd"><span class="pbar-nm">Processing Speed</span><span class="pbar-vl">Real-time</span></div>
+          <div class="pbar-tr">
+            <div class="pbar-fl" data-w="88"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="max">
+      <div class="sec-lbl rev">About the Project</div>
+      <h2 class="sec-h2 rev">What is CropSense AI?</h2>
+      <div class="about-grid">
+        <div class="rev">
+          <p class="adesc">CropSense AI is an artificial intelligence platform developed to address two of the most
+            critical challenges in modern agriculture: the early detection of plant diseases and the accurate
+            forecasting of crop yield before harvest season.</p>
+          <p class="adesc">The platform provides farmers, agronomists, and agricultural organizations with actionable
+            intelligence — turning a leaf photograph or a set of field parameters into precise, data-driven
+            recommendations that protect crops and optimize production planning.</p>
+          <div class="ahighlight">
+            <strong>The Problem Being Solved:</strong> Crop diseases cause an estimated 20–40% of global agricultural
+            losses each year. Farmers often lack timely access to expert diagnosis. Traditional yield estimation is
+            inaccurate and slow — resulting in poor planning and economic uncertainty for millions of farming
+            households.
+          </div>
+        </div>
+        <div class="rev d1">
+          <div class="pillars">
+            <div class="pillar">
+              <div class="pn">01</div>
+              <div class="pb">
+                <h4>Vision-Based Disease Detection</h4>
+                <p>A deep learning model trained on thousands of plant leaf images identifies disease patterns invisible
+                  to the naked eye — in seconds, without requiring laboratory testing or specialist consultation.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pn">02</div>
+              <div class="pb">
+                <h4>Environmental Yield Forecasting</h4>
+                <p>A machine learning regression model uses local field conditions — rainfall, temperature, and
+                  pesticide usage — to predict crop output in hectogram-per-hectare units before harvest.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pn">03</div>
+              <div class="pb">
+                <h4>Accessible REST API Infrastructure</h4>
+                <p>Both models are served through a lightweight API, making integration with mobile applications, IoT
+                  sensors, and farm management systems straightforward and scalable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="max">
+      <div class="how-intro">
+        <div>
+          <div class="sec-lbl rev">Process</div>
+          <h2 class="sec-h2 rev">How the Platform Works</h2>
+        </div>
+        <div class="how-right rev d1">The platform operates through two parallel AI pipelines — one for visual crop
+          disease diagnosis, and one for numerical yield prediction. Both are accessible through this web interface and
+          a REST API endpoint for integration into existing systems.</div>
+      </div>
+      <div class="flow-grid rev">
+        <div class="fstep">
+          <div class="sidx">Step 01</div>
+          <div class="sicon"><svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <path d="m21 15-5-5L5 21" />
+            </svg></div>
+          <h3>Upload a Leaf Image</h3>
+          <p>Photograph any affected plant leaf and upload it to the platform. The system accepts standard image formats
+            and automatically resizes and normalizes the image for analysis.</p>
+        </div>
+        <div class="fstep">
+          <div class="sidx">Step 02</div>
+          <div class="sicon"><svg viewBox="0 0 24 24">
+              <path
+                d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" />
+            </svg></div>
+          <h3>AI Vision Analysis</h3>
+          <p>A deep learning neural network scans the visual texture and color patterns of the leaf, comparing them
+            against trained disease profiles for Potato and Tomato crop families.</p>
+        </div>
+        <div class="fstep">
+          <div class="sidx">Step 03</div>
+          <div class="sicon"><svg viewBox="0 0 24 24">
+              <path d="M9 12l2 2 4-4" />
+              <path d="M21 12c0 4.97-4.03 9-9 9S3 16.97 3 12 7.03 3 12 3s9 4.03 9 9z" />
+            </svg></div>
+          <h3>Instant Diagnosis</h3>
+          <p>Receive a precise classification — Potato Early Blight, Tomato Early Blight, Tomato Late Blight, or Healthy
+            — with actionable treatment guidance when disease is detected.</p>
+        </div>
+        <div class="fstep">
+          <div class="sidx">Step 04</div>
+          <div class="sicon"><svg viewBox="0 0 24 24">
+              <path d="M12 2a10 10 0 0 1 10 10" />
+              <path d="M12 6v6l4 2" />
+              <path d="M2 12a10 10 0 0 0 10 10" />
+            </svg></div>
+          <h3>Enter Field Conditions</h3>
+          <p>Input your local agricultural parameters: annual rainfall in millimeters, pesticide tonnage applied, and
+            average seasonal temperature in degrees Celsius.</p>
+        </div>
+        <div class="fstep">
+          <div class="sidx">Step 05</div>
+          <div class="sicon"><svg viewBox="0 0 24 24">
+              <path d="M3 3v18h18" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg></div>
+          <h3>Predictive Yield Model</h3>
+          <p>An ensemble of decision trees analyzes the relationship between your field conditions and historical yield
+            data to produce a calibrated harvest estimate.</p>
+        </div>
+        <div class="fstep">
+          <div class="sidx">Step 06</div>
+          <div class="sicon"><svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg></div>
+          <h3>Yield Forecast Report</h3>
+          <p>Receive a predicted yield in hectograms per hectare with a per-tonne equivalent — ready for use in harvest
+            planning, procurement, and supply chain decisions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools">
+    <div class="max">
+      <div class="tools-hd">
+        <div>
+          <div class="sec-lbl rev">AI Tools</div>
+          <h2 class="sec-h2 rev">Run an Analysis</h2>
+        </div>
+        <div class="tools-hd-r rev d1">Use the tools below to diagnose plant diseases from a leaf photograph, or
+          forecast your expected crop yield by entering your field conditions. Both tools connect directly to the
+          trained AI models via REST API.</div>
+      </div>
+      <div class="tools-grid">
+
+        <!-- DISEASE -->
+        <div class="tcard rev d1">
+          <div class="tcard-hd">
+            <div>
+              <div class="ttag">Crop Disease Detection</div>
+              <div class="ttitle">Leaf Disease<br>Diagnosis</div>
+            </div>
+            <div class="ticon"><svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg></div>
+          </div>
+          <div class="tbody">
+            <div class="dc-grid">
+              <div class="dc"><span class="dcd" style="background:#c04a4a"></span>Potato Early Blight</div>
+              <div class="dc"><span class="dcd" style="background:#c8a84b"></span>Tomato Early Blight</div>
+              <div class="dc"><span class="dcd" style="background:#d97474"></span>Tomato Late Blight</div>
+              <div class="dc"><span class="dcd" style="background:#7a9e7e"></span>Tomato Healthy</div>
+            </div>
+            <div class="uzone" id="uzone">
+              <input type="file" accept="image/*" id="dfile" onchange="prevImg(event)" />
+              <svg class="usvg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c8a84b"
+                stroke-width="1.2" opacity="0.45">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <div class="umain"><span>Click to upload</span> or drag and drop a leaf image</div>
+              <div class="uhint">JPG or PNG — image will be automatically processed for analysis</div>
+            </div>
+            <div id="ipw">
+              <div style="position:relative">
+                <img id="ip" src="" alt="Leaf preview" />
+                <div class="scanwrap" id="sw">
+                  <div class="scanline"></div>
+                </div>
+              </div>
+              <button class="rmbtn" onclick="clearImg()">✕</button>
+            </div>
+            <button class="sbtn" id="dbtn" onclick="diagnose()">Diagnose Plant Leaf</button>
+            <div class="res" id="dres">
+              <div class="rl">Diagnosis Result</div>
+              <div class="rv" id="drv"></div>
+              <div id="dchip"></div>
+              <div class="rn" id="drn"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- YIELD -->
+        <div class="tcard rev d2">
+          <div class="tcard-hd">
+            <div>
+              <div class="ttag">Yield Prediction</div>
+              <div class="ttitle">Harvest Yield<br>Forecast</div>
+            </div>
+            <div class="ticon"><svg viewBox="0 0 24 24">
+                <path d="M3 3v18h18" />
+                <path d="m19 9-5 5-4-4-3 3" />
+              </svg></div>
+          </div>
+          <div class="tbody">
+            <div class="field">
+              <div class="ftop"><span class="fname">Annual Rainfall (mm / year)</span><span class="fval"
+                  id="rv">1,200</span></div>
+              <div class="rtrack">
+                <div class="rfill" id="rf" style="width:40%"></div><input type="range" min="0" max="3000" step="10"
+                  value="1200" id="rr" oninput="upd('r',this.value,0,3000)" />
+              </div>
+            </div>
+            <div class="field">
+              <div class="ftop"><span class="fname">Pesticides Applied (tonnes)</span><span class="fval"
+                  id="pv">15,000</span></div>
+              <div class="rtrack">
+                <div class="rfill" id="pf" style="width:30%"></div><input type="range" min="0" max="50000" step="100"
+                  value="15000" id="pr" oninput="upd('p',this.value,0,50000)" />
+              </div>
+            </div>
+            <div class="field">
+              <div class="ftop"><span class="fname">Average Temperature (°C)</span><span class="fval" id="tv">22
+                  °C</span></div>
+              <div class="rtrack">
+                <div class="rfill" id="tf" style="width:53%"></div><input type="range" min="-10" max="50" step="0.5"
+                  value="22" id="tr" oninput="upd('t',this.value,-10,50)" />
+              </div>
+            </div>
+            <div class="mini-g">
+              <div class="mc">
+                <div class="mcl">Rainfall</div>
+                <div class="mcv" id="mr">1.2k</div>
+              </div>
+              <div class="mc">
+                <div class="mcl">Pesticide</div>
+                <div class="mcv" id="mp">15k</div>
+              </div>
+              <div class="mc">
+                <div class="mcl">Temp</div>
+                <div class="mcv" id="mt">22°</div>
+              </div>
+            </div>
+            <button class="sbtn" id="ybtn" onclick="forecast()">Forecast Crop Yield</button>
+            <div class="res" id="yres">
+              <div class="rl">Predicted Yield</div>
+              <div class="rv" id="yrv"></div>
+              <div class="rn" id="yrn"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section id="impact">
+    <div class="max">
+      <div class="imp-top">
+        <div class="sec-lbl rev">Project Impact</div>
+        <h2 class="sec-h2 rev">Built to Transform<br>Agricultural Decision-Making</h2>
+      </div>
+      <div class="imp-cards">
+        <div class="icard rev d1">
+          <div class="icard-top">
+            <div class="inum">40%</div>
+            <div class="iico"><svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg></div>
+          </div>
+          <h3>Crop Loss Prevention Potential</h3>
+          <p>Diseases account for up to 40% of global agricultural losses annually. Early and accurate diagnosis enables
+            timely treatment before losses become irreversible.</p>
+        </div>
+        <div class="icard rev d2">
+          <div class="icard-top">
+            <div class="inum">10x</div>
+            <div class="iico"><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg></div>
+          </div>
+          <h3>Faster Than Manual Inspection</h3>
+          <p>Traditional disease identification requires laboratory testing and expert consultation that can take days.
+            CropSense delivers a diagnosis in under 5 seconds.</p>
+        </div>
+        <div class="icard rev d3">
+          <div class="icard-top">
+            <div class="inum">3</div>
+            <div class="iico"><svg viewBox="0 0 24 24">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg></div>
+          </div>
+          <h3>Key Yield Variables Modeled</h3>
+          <p>Rainfall patterns, pesticide application, and temperature are the strongest predictors of crop yield. All
+            three are captured and analyzed by the forecasting model.</p>
+        </div>
+      </div>
+      <div class="imp-div"></div>
+      <div class="mission-blk">
+        <div class="rev">
+          <div class="mq">"Empowering every farmer with the same intelligence that was once only available to large
+            agricultural enterprises and well-funded research institutions."</div>
+        </div>
+        <div class="rev d1">
+          <p class="mb">The core mission of CropSense AI is the democratization of agricultural intelligence.
+            High-quality crop diagnosis and yield forecasting have historically required expensive consultants,
+            laboratory facilities, and specialized equipment — resources unavailable to small and medium-scale farmers
+            who produce the majority of the world's food supply.</p>
+          <br />
+          <p class="mb">By delivering AI-powered analysis through a simple image upload and a web form, CropSense AI
+            puts expert-level insight directly into the hands of farmers, extension officers, and agricultural
+            co-operatives — regardless of their location or technical background.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="fw">
+      <div>
+        <div class="fbn">Crop<span>Sense</span> AI</div>
+        <p class="ftg">Smart Farming Intelligence Platform<br>Crop Disease Prevention and Yield Forecasting using
+          Artificial Intelligence</p>
+      </div>
+      <div class="fc">
+        <div class="fcl">Platform</div>
+        <ul>
+          <li>Disease Detection</li>
+          <li>Yield Forecasting</li>
+          <li>REST API Access</li>
+          <li>Documentation</li>
+        </ul>
+      </div>
+      <div class="fc">
+        <div class="fcl">Disease Coverage</div>
+        <ul>
+          <li>Potato Early Blight</li>
+          <li>Tomato Early Blight</li>
+          <li>Tomato Late Blight</li>
+          <li>Healthy Crop Verification</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fb">
+      <div class="fcp">CropSense AI — Smart Farming Intelligence Platform — Final Year AI Project</div>
+      <div class="fpills"><span class="fpill">Deep Learning</span><span class="fpill">Computer Vision</span><span
+          class="fpill">Predictive Modeling</span></div>
+    </div>
+  </footer>
+
+  <script>
+    // CANVAS
+    const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+    let W, H;
+    function rsz() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight }
+    rsz(); window.addEventListener('resize', rsz);
+    const nodes = [];
+    for (let i = 0; i < 55; i++) nodes.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, vx: (Math.random() - .5) * .22, vy: (Math.random() - .5) * .22, r: Math.random() * 1.6 + 0.4 });
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 145) { ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.strokeStyle = `rgba(200,168,75,${0.1 * (1 - d / 145)})`; ctx.lineWidth = 0.5; ctx.stroke() }
+      }
+      nodes.forEach(n => { ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(200,168,75,0.3)'; ctx.fill(); n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1 });
+      requestAnimationFrame(frame);
+    }
+    frame();
+
+    // REVEALS
+    const ro = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); e.target.querySelectorAll('.pbar-fl').forEach(b => b.style.width = b.dataset.w + '%') } }) }, { threshold: 0.12 });
+    document.querySelectorAll('.rev').forEach(el => ro.observe(el));
+    setTimeout(() => document.querySelectorAll('.pbar-fl').forEach(b => b.style.width = b.dataset.w + '%'), 600);
+
+    // COUNT UP
+    function cntEl(el) { const t = parseInt(el.dataset.t); let c = 0; const step = Math.max(1, Math.ceil(t / 50)); const iv = setInterval(() => { c = Math.min(c + step, t); el.textContent = c; if (c >= t) clearInterval(iv) }, 22) }
+    const co = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll('.count-up').forEach(cntEl); co.unobserve(e.target) } }) }, { threshold: 0.3 });
+    document.querySelectorAll('#hero').forEach(el => co.observe(el));
+
+    // NAV
+    window.addEventListener('scroll', () => { document.getElementById('nav').style.padding = window.scrollY > 60 ? '0.85rem 3rem' : '1.4rem 3rem' });
+
+    // RANGE
+    function upd(id, val, min, max) {
+      const pct = ((val - min) / (max - min)) * 100, num = parseFloat(val);
+      if (id === 'r') { document.getElementById('rf').style.width = pct + '%'; document.getElementById('rv').textContent = num >= 1000 ? num.toLocaleString() : num; document.getElementById('mr').textContent = num >= 1000 ? (num / 1000).toFixed(1) + 'k' : num }
+      else if (id === 'p') { document.getElementById('pf').style.width = pct + '%'; document.getElementById('pv').textContent = num.toLocaleString(); document.getElementById('mp').textContent = num >= 1000 ? Math.round(num / 1000) + 'k' : num }
+      else { document.getElementById('tf').style.width = pct + '%'; document.getElementById('tv').textContent = num + ' °C'; document.getElementById('mt').textContent = num + '°' }
+    }
+
+    // IMAGE
+    function prevImg(e) { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = ev => { document.getElementById('ip').src = ev.target.result; document.getElementById('ipw').style.display = 'block'; document.getElementById('uzone').style.display = 'none'; document.getElementById('dres').classList.remove('on') }; r.readAsDataURL(f) }
+    function clearImg() { document.getElementById('ip').src = ''; document.getElementById('ipw').style.display = 'none'; document.getElementById('uzone').style.display = 'block'; document.getElementById('dfile').value = ''; document.getElementById('dres').classList.remove('on') }
+    const uz = document.getElementById('uzone');
+    uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('over') });
+    uz.addEventListener('dragleave', () => uz.classList.remove('over'));
+    uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('over'); const f = e.dataTransfer.files[0]; if (f && f.type.startsWith('image/')) { const dt = new DataTransfer(); dt.items.add(f); document.getElementById('dfile').files = dt.files; prevImg({ target: { files: dt.files } }) } });
+
+    // DIAGNOSE
+async function diagnose() {
+  const fi = document.getElementById('dfile');
+  const btn = document.getElementById('dbtn');
+
+  if (!fi.files[0]) {
+    alert("Upload image first");
+    return;
+  }
+
+  btn.innerHTML = "Analyzing...";
+
+  const fd = new FormData();
+  fd.append('file', fi.files[0]);
+
+  try {
+    const res = await fetch("http://127.0.0.1:5001/predict-disease", {
+      method: "POST",
+      body: fd
+    });
+
+    const data = await res.json();
+    console.log("Disease Response:", data);
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    // ✅ SAFE CALL
+    if (typeof showDis === "function") {
+      showDis(data.disease);
+    } else {
+      alert("Result: " + data.disease); // fallback
+    }
+
+  } catch (err) {
+    console.error("REAL ERROR:", err);
+    alert("Check console (real error)");
+  }
+
+  btn.innerHTML = "Diagnose Plant Leaf";
+}
+
+    // FORECAST
+    async function forecast() {
+      const btn = document.getElementById('ybtn');
+
+      btn.innerHTML = "Computing...";
+
+      const rainfall = parseFloat(document.getElementById('rr').value);
+      const pesticides = parseFloat(document.getElementById('pr').value);
+      const temperature = parseFloat(document.getElementById('tr').value);
+
+      try {
+        const res = await fetch("http://127.0.0.1:5001/predict-yield", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rainfall, pesticides, temperature })
+        });
+
+        const data = await res.json();
+        console.log("Yield API Response:", data);   // 🔥 DEBUG
+
+        if (data.error) {
+          alert("Error: " + data.error);
+          return;
+        }
+
+        showYld(data.predicted_yield, rainfall, pesticides, temperature);
+
+      } catch (err) {
+        console.error("Connection Error:", err);
+        alert("Error: " + err.message);
+      }
+
+      btn.innerHTML = "Forecast Crop Yield";
+    }
+function showDis(disease) {
+  const resBox = document.getElementById("dres");
+  const resultText = document.getElementById("drv");
+  const chip = document.getElementById("dchip");
+  const note = document.getElementById("drn");
+
+  resBox.classList.add("on");
+  resBox.classList.add("ok");
+
+  resultText.innerText = disease;
+
+  // Status chip
+  if (disease.toLowerCase().includes("healthy")) {
+    chip.innerHTML = `<div class="schip cok"><span class="cdot"></span>Healthy</div>`;
+    note.innerText = "No disease detected. Crop is in good condition.";
+  } else {
+    chip.innerHTML = `<div class="schip cwarn"><span class="cdot"></span>Disease Detected</div>`;
+    note.innerText = "Disease detected. Consider treatment or pesticide application.";
+  }
+}
+function showYld(yieldValue, rainfall, pesticides, temperature) {
+  const resBox = document.getElementById("yres");
+  const value = document.getElementById("yrv");
+  const note = document.getElementById("yrn");
+
+  resBox.classList.add("on");
+  resBox.classList.add("ok");
+
+  value.innerText = yieldValue.toFixed(2);
+
+  note.innerText = `Based on:
+Rainfall: ${rainfall} mm,
+Pesticides: ${pesticides} tonnes,
+Temperature: ${temperature} °C`;
+}
+  </script>
+</body>
+
+</html>

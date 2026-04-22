@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual env
+ai-env/
+venv/
+
+# Mac
+.DS_Store
+
+# Models (optional if large)
+*.h5
+*.pkl
+
+# VS Code
+.vscode/
